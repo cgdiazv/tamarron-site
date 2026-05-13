@@ -1,41 +1,28 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LOCAL_POSTS } from '@/lib/data'; // Pulling from your new local data file
 
-// 1. TypeScript Interfaces
-interface WordPressPost {
-  title: string;
-  slug: string;
-  excerpt: string;
-  date: string;
-  featuredImage?: { node: { sourceUrl: string; altText: string; }; };
-}
-
-// 2. Fetching Logic
-async function getPosts(): Promise<WordPressPost[]> {
-  const endpoint = process.env.WORDPRESS_API_URL;
-  if (!endpoint) return [];
-
-  const query = `query GetLatestPosts { posts(first: 12) { nodes { title slug excerpt date featuredImage { node { sourceUrl altText } } } } }`;
+export default function Page() {
+  const [currentIndex, setCurrentIndex] = useState(0);
   
-  try {
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query }),
-      next: { revalidate: 60 },
-    });
-    const json = await res.json();
-    return json?.data?.posts?.nodes || [];
-  } catch (error) {
-    console.error("Failed to fetch posts:", error);
-    return [];
-  }
-}
+  // Local Slider Images
+  const slides = [
+    "/slide1.webp",
+    "/slide2.webp",
+    "/slide3.webp",
+    "/slide4.webp"
+  ];
 
-// 3. Main Page Component
-export default async function Page() {
-  const posts = await getPosts();
+  // Auto-advance logic for Hero Slider
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
   const services = [
     {
@@ -80,19 +67,28 @@ export default async function Page() {
     <div className="min-h-screen bg-slate-50 font-sans">
       
       {/* =========================================
-          HERO SECTION
+          HERO SECTION WITH SLIDER
           ========================================= */}
-      <section className="relative w-full h-[350px] md:h-[650px] flex items-center justify-center overflow-hidden">
+      <section className="relative w-full h-[450px] md:h-[750px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          <Image 
-            src="/header.webp" 
-            alt="Tamarron Services Outdoor Living" 
-            fill 
-            priority 
-            className="object-cover object-center" 
-          />
+          {slides.map((src, index) => (
+            <div
+              key={src}
+              className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                index === currentIndex ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Image 
+                src={src} 
+                alt={`Outdoor Living Project ${index + 1}`} 
+                fill 
+                priority={index === 0} 
+                className="object-cover object-center" 
+              />
+            </div>
+          ))}
+          <div className="absolute inset-0 bg-black/50 pointer-events-none"></div>
         </div>
-        <div className="absolute inset-0 bg-black/50 pointer-events-none"></div>
 
         <div className="relative z-10 flex flex-col items-center text-center px-4 md:px-6 max-w-5xl mx-auto w-full">
           <div className="border-2 border-white rounded-xl px-4 py-2 md:px-8 md:py-3 inline-block backdrop-blur-[2px] bg-black/10">

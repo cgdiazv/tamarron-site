@@ -93,7 +93,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-black/8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-white font-light">
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs md:text-sm text-white font-light">
           <p>
             © 2022–{new Date().getFullYear()} Tamarron Services
           </p>
