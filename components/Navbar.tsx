@@ -3,41 +3,51 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { 
+  Menu, X, Phone, Info, Briefcase, Mail, 
+  FileText, Users, ShieldCheck, Newspaper, ChevronRight 
+} from 'lucide-react';
 
-/**
- * Navbar component for Tamarron Services.
- * Features:
- * - Brand Color: #00a4dd
- * - Font: Poppins
- * - Navigation links for About, Services, Contact, Resources, Our Job, Warranties, and Blog.
- */
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const navLinks = [
+    { name: 'About Us', href: '/about-us', icon: <Info size={18} /> },
+    { name: 'Our Services', href: '/services', icon: <Briefcase size={18} /> },
+    { name: 'Contact Us', href: '/contact', icon: <Mail size={18} /> },
+    { name: 'Permit Process', href: '/resources/permit-process', icon: <FileText size={18} /> },
+    { name: 'Referrals', href: '/resources/referrals', icon: <Users size={18} /> },
+    { name: 'Our Job', href: '/our-job', icon: <ShieldCheck size={18} /> },
+    { name: 'Warranties', href: '/warranties', icon: <ShieldCheck size={18} /> },
+    { name: 'Blog', href: '/blog', icon: <Newspaper size={18} /> },
+  ];
 
   return (
-    <nav className="w-full bg-white font-sans">
-      {/* Top Section: Address, Logo, and Phone */}
+    <nav className="w-full bg-white font-sans sticky top-0 z-[100] shadow-sm">
+      {/* MAIN NAVBAR CONTAINER */}
       <div className="max-w-7xl mx-auto px-4 py-4 md:py-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
+        <div className="flex items-center justify-between">
           
-          {/* Left: Address - Bold and Branded */}
-          <div className="flex items-center gap-2 text-slate-600 w-full md:w-1/3 justify-center md:justify-start">
-            <div className="text-[#00a4dd] flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <div className="text-[10px] md:text-xs lg:text-sm leading-tight">
-              <p className="uppercase font-bold">2750 FM 1463 RD SUITE 150-117</p>
-              <p className="text-[#00a4dd] font-bold">Katy TX, 77494</p>
-            </div>
+          {/* LEFT: MENU BUTTON (Mirrors the phone button style) */}
+          <div className="flex-1 flex justify-start">
+            <button 
+              onClick={() => setIsDrawerOpen(true)}
+              className="flex items-center gap-3 bg-white text-[#00a4dd] px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-[#00a4dd]/20 shadow-sm hover:shadow-md hover:border-[#00a4dd] transition-all hover:scale-[1.02] active:scale-95 group"
+            >
+              <div className="bg-[#00a4dd] text-white p-1 md:p-1.5 rounded-full">
+                <Menu size={14} className="md:w-4 md:h-4" />
+              </div>
+              <div className="text-left">
+                <p className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-slate-500 opacity-80 leading-tight">Explore</p>
+                <p className="font-bold text-xs md:text-sm lg:text-base tracking-tight leading-tight">Tamarron Services</p>
+              </div>
+            </button>
           </div>
 
-          {/* Center: Logo */}
-          <div className="flex-shrink-0 w-full md:w-1/3 flex justify-center order-first md:order-none">
+          {/* CENTER: LOGO */}
+          <div className="flex-shrink-0 flex justify-center">
             <Link href="/">
-              <div className="relative w-[180px] h-[60px] md:w-[220px] md:h-[80px]">
+              <div className="relative w-[130px] h-[40px] md:w-[200px] md:h-[70px]">
                 <Image 
                   src="/logo.webp" 
                   alt="Tamarron Services Logo" 
@@ -49,77 +59,72 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* Right: Phone Number - Call Today Bold & Scaled Down */}
-          <div className="flex items-center gap-2 md:gap-3 text-right w-full md:w-1/3 justify-center md:justify-end">
-            <div className="text-[10px] md:text-[11px] lg:text-xs text-slate-600">
-              <p className="font-bold">Call Today</p>
-              <p className="text-[#00a4dd] font-bold text-sm md:text-base lg:text-lg tracking-tight">
-                +1 (234) 230-7015
-              </p>
-            </div>
-            <div className="text-[#00a4dd] flex-shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-7 md:w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-              </svg>
-            </div>
+          {/* RIGHT: CALL BUTTON (With Label and Phone Number) */}
+          <div className="flex-1 flex justify-end">
+            <a 
+              href="tel:+12342307015" 
+              className="flex items-center gap-3 bg-white text-[#00a4dd] px-4 py-1.5 md:px-5 md:py-2 rounded-full border border-[#00a4dd]/20 shadow-sm hover:shadow-md hover:border-[#00a4dd] transition-all hover:scale-[1.02] active:scale-95 group"
+            >
+              <div className="text-right">
+                <p className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-slate-500 opacity-80 leading-tight">Call Today</p>
+                <p className="font-bold text-xs md:text-sm lg:text-base tracking-tight leading-tight">
+                  +1 (234) 230-7015
+                </p>
+              </div>
+              <div className="bg-[#00a4dd] text-white p-1 md:p-1.5 rounded-full">
+                <Phone size={14} className="md:w-4 md:h-4" />
+              </div>
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Blue Navigation Bar: Uses Hex #00a4dd */}
-      <div className="bg-[#00a4dd] text-white shadow-md relative">
-        <div className="max-w-7xl mx-auto px-4">
-          
-          {/* Mobile Menu Toggle Button */}
-          <div className="md:hidden flex justify-between items-center py-3">
-            <span className="font-bold uppercase tracking-widest text-sm text-white">Menu</span>
-            <button 
-              onClick={() => setIsMenuOpen(!isMenuOpen)} 
-              className="p-2 focus:outline-none text-white"
-            >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-                )}
-              </svg>
-            </button>
-          </div>
+      {/* OVERLAY / DRAWER */}
+      <div 
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-[110] ${isDrawerOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+        onClick={() => setIsDrawerOpen(false)}
+      />
 
-          {/* Navigation Links Grid */}
-          <ul className={`
-            ${isMenuOpen ? 'flex' : 'hidden'} 
-            md:flex flex-col md:flex-row items-center justify-center 
-            gap-4 md:gap-6 lg:gap-8 py-4 md:py-3 
-            text-[12px] lg:text-sm font-bold uppercase tracking-wider
-          `}>
-            <li className="w-full md:w-auto text-center">
-              <Link href="/about" className="block py-2 md:py-0 hover:text-sky-100 transition-colors">About Us</Link>
-            </li>
-            <li className="w-full md:w-auto text-center">
-              <Link href="/services" className="block py-2 md:py-0 hover:text-sky-100 transition-colors">Our Services</Link>
-            </li>
-            <li className="w-full md:w-auto text-center">
-              <Link href="/contact" className="block py-2 md:py-0 hover:text-sky-100 transition-colors">Contact Us</Link>
-            </li>
-            <li className="w-full md:w-auto text-center flex items-center justify-center gap-1 cursor-pointer hover:text-sky-100 transition-colors py-2 md:py-0">
-              Resources 
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </li>
-            <li className="w-full md:w-auto text-center">
-              <Link href="/our-job" className="block py-2 md:py-0 hover:text-sky-100 transition-colors">Our Job</Link>
-            </li>
-            <li className="w-full md:w-auto text-center">
-              <Link href="/warranties" className="block py-2 md:py-0 hover:text-sky-100 transition-colors">Warranties</Link>
-            </li>
-            <li className="w-full md:w-auto text-center">
-              {/* Underline removed here */}
-              <Link href="/blog" className="block py-2 md:py-0 text-white hover:text-sky-100 transition-colors">Blog</Link>
-            </li>
-          </ul>
+      <div className={`fixed top-0 right-0 h-full w-[280px] md:w-[350px] bg-[#333333] shadow-2xl transition-transform duration-300 transform z-[120] ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <span className="text-white font-bold uppercase tracking-[0.2em] text-xs">Navigation</span>
+          <button 
+            onClick={() => setIsDrawerOpen(false)}
+            className="text-white/50 hover:text-white transition-colors p-2"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Drawer Content */}
+        <div className="flex flex-col py-4 overflow-y-auto h-[calc(100%-80px)]">
+          {navLinks.map((link, idx) => (
+            <Link 
+              key={idx}
+              href={link.href}
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between px-8 py-4 text-white/80 hover:text-white hover:bg-white/5 transition-all group"
+            >
+              <div className="flex items-center gap-4">
+                <span className="text-[#00a4dd] group-hover:scale-110 transition-transform">
+                  {link.icon}
+                </span>
+                <span className="text-sm font-bold uppercase tracking-wider">{link.name}</span>
+              </div>
+              <ChevronRight size={16} className="text-white/20 group-hover:text-[#00a4dd] transition-colors" />
+            </Link>
+          ))}
+
+          {/* Location Footer */}
+          <div className="mt-auto p-8 border-t border-white/5 bg-black/20">
+             <p className="text-white/40 text-[10px] uppercase font-bold tracking-widest mb-2">Location</p>
+             <p className="text-white/80 text-xs leading-relaxed">
+               2750 FM 1463 RD SUITE 150-117<br />
+               Katy TX, 77494
+             </p>
+          </div>
         </div>
       </div>
     </nav>

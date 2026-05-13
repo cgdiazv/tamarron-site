@@ -137,11 +137,13 @@ export default async function Page() {
               </Link> with no impact to your credit and contact us to learn about financing your next project!
             </p>
             <Link 
-              href="#" 
-              className="inline-block bg-[#00a4dd] text-white font-bold text-sm uppercase tracking-wide px-8 py-4 rounded-full hover:bg-sky-600 transition-colors shadow-sm"
-            >
-              PREQUALIFY NOW
-            </Link>
+  href="https://wisetack.us/#/4cbys30/prequalify" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="inline-block bg-[#00a4dd] text-white font-bold py-4 px-10 rounded-full hover:bg-sky-600 transition-all shadow-lg hover:scale-105 active:scale-95 uppercase tracking-widest text-sm"
+>
+  Prequalify Now
+</Link>
             <p className="mt-10 text-[11px] text-slate-500 leading-relaxed max-w-2xl">
               *All financing is subject to credit approval. Your terms may vary. Payment options through Wisetack are provided by our lending partners. For example, a $1,200 purchase could cost $104.89 a month for 12 months, based on an 8.9% APR, or $400 a month for 3 months, based on a 0% APR. Offers range from 0-35.9% APR based on creditworthiness. No other financing charges or participation fees. See additional terms at .
             </p>
