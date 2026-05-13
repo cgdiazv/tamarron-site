@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer"; // Import your new component
+import Footer from "@/components/Footer";
+import FloatingSocials from "@/components/FloatingSocials"; // Import your new component
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -15,7 +16,6 @@ export const metadata: Metadata = {
   description: "Expert outdoor living solutions.",
 };
 
-// There should ONLY be one "export default" in this file
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,11 +26,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-white text-slate-900 font-sans">
         <Navbar />
         
+        {/* The social icons float independently of the main content flow */}
+        <FloatingSocials /> 
+
         <main className="flex-grow">
           {children}
         </main>
 
-        <Footer /> {/* Place the component here */}
+        <Footer />
       </body>
     </html>
   );
