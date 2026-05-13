@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 items-start mb-16">
           
           {/* Column 1: Contact Us */}
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-6 items-center md:items-start text-center md:text-left">
             <h3 className="text-xl md:text-2xl font-bold">Contact Us</h3>
             <div className="text-slate-300 text-sm md:text-base leading-relaxed">
               <p>2750 FM 1463 RD SUITE 150-117</p>

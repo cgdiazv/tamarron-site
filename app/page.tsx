@@ -119,7 +119,7 @@ export default async function Page() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
           
           <div className="order-2 lg:order-1">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 tracking-tight mb-12">
+            <h2 className="text-center lg:text-left text-3xl md:text-4xl font-bold text-slate-800 tracking-tight mb-12">
               We offer financing
             </h2>
             <p className="text-[17px] text-slate-600 mb-6 leading-relaxed">
@@ -136,14 +136,16 @@ export default async function Page() {
                 Prequalify today
               </Link> with no impact to your credit and contact us to learn about financing your next project!
             </p>
-            <Link 
-  href="https://wisetack.us/#/4cbys30/prequalify" 
-  target="_blank" 
-  rel="noopener noreferrer" 
-  className="inline-block bg-[#00a4dd] text-white font-bold py-4 px-10 rounded-full hover:bg-sky-600 transition-all shadow-lg hover:scale-105 active:scale-95 uppercase tracking-widest text-sm"
->
-  Prequalify Now
-</Link>
+            <div className="text-center lg:text-left">
+              <Link 
+                href="https://wisetack.us/#/4cbys30/prequalify" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-block bg-[#00a4dd] text-white font-bold py-4 px-10 rounded-full hover:bg-sky-600 transition-all shadow-lg hover:scale-105 active:scale-95 uppercase tracking-widest text-sm"
+              >
+                Prequalify Now
+              </Link>
+            </div>
             <p className="mt-10 text-[11px] text-slate-500 leading-relaxed max-w-2xl">
               *All financing is subject to credit approval. Your terms may vary. Payment options through Wisetack are provided by our lending partners. For example, a $1,200 purchase could cost $104.89 a month for 12 months, based on an 8.9% APR, or $400 a month for 3 months, based on a 0% APR. Offers range from 0-35.9% APR based on creditworthiness. No other financing charges or participation fees. See additional terms at .
             </p>
@@ -225,7 +227,7 @@ export default async function Page() {
             </div>
 
             {/* Content Card (Overlapping on Desktop) */}
-            <div className="w-full md:w-1/2 bg-white p-8 md:p-12 shadow-2xl z-10 md:-ml-24 mt-[-40px] md:mt-0 rounded-lg md:rounded-none">
+            <div className="w-full md:w-1/2 bg-white p-8 md:p-12 shadow-2xl z-10 md:-ml-24 mt-[-40px] md:mt-0 rounded-lg md:rounded-none text-center md:text-left">
               <h3 className="text-2xl md:text-3xl font-semibold text-slate-800 mb-6 leading-tight">
                 A Personalized Offer for Your Home
               </h3>
