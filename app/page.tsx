@@ -205,7 +205,7 @@ export default async function Page() {
       {/* =========================================
           WHAT WE OFFER SECTION
           ========================================= */}
-      <section className="bg-slate-50 py-16 md:py-24 overflow-hidden">
+      <section className="bg-slate-50 py-16 md:py-24 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center text-slate-800 uppercase tracking-tight mb-12">
             What We Offer
