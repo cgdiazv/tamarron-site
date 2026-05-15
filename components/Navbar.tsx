@@ -28,7 +28,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-between">
           
-          {/* LEFT: MENU BUTTON (Icons only on mobile) */}
+          {/* LEFT: MENU BUTTON */}
           <div className="flex-1 flex justify-start">
             <button 
               onClick={() => setIsDrawerOpen(true)}
@@ -37,7 +37,6 @@ const Navbar = () => {
               <div className="bg-[#00a4dd] text-white p-1.5 md:p-1.5 rounded-full">
                 <Menu size={16} className="md:w-4 md:h-4" />
               </div>
-              {/* Text hidden on mobile, visible on medium screens+ */}
               <div className="text-left hidden md:block">
                 <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 opacity-80 leading-tight">Explore</p>
                 <p className="font-bold text-sm lg:text-base tracking-tight leading-tight">Tamarron Services</p>
@@ -60,13 +59,12 @@ const Navbar = () => {
             </Link>
           </div>
 
-          {/* RIGHT: CALL BUTTON (Icons only on mobile) */}
+          {/* RIGHT: CALL BUTTON */}
           <div className="flex-1 flex justify-end">
             <a 
               href="tel:+12342307015" 
               className="flex items-center gap-3 bg-white text-[#00a4dd] px-2 py-2 md:px-5 md:py-2 rounded-full border border-[#00a4dd]/20 shadow-sm hover:shadow-md hover:border-[#00a4dd] transition-all hover:scale-[1.02] active:scale-95 group"
             >
-              {/* Text hidden on mobile, visible on medium screens+ */}
               <div className="text-right hidden md:block">
                 <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500 opacity-80 leading-tight">Call Today</p>
                 <p className="font-bold text-sm lg:text-base tracking-tight leading-tight">+1 (234) 230-7015</p>
@@ -79,13 +77,14 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* OVERLAY / DRAWER (Remains the same) */}
+      {/* OVERLAY */}
       <div 
         className={`fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 z-[110] ${isDrawerOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
         onClick={() => setIsDrawerOpen(false)}
       />
 
-      <div className={`fixed top-0 right-0 h-full w-[280px] md:w-[350px] bg-[#333333] shadow-2xl transition-transform duration-300 transform z-[120] ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      {/* LEFT-SIDE DRAWER */}
+      <div className={`fixed top-0 left-0 h-full w-[280px] md:w-[350px] bg-[#333333] shadow-2xl transition-transform duration-300 transform z-[120] ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <span className="text-white font-bold uppercase tracking-[0.2em] text-xs">Navigation</span>
           <button onClick={() => setIsDrawerOpen(false)} className="text-white/50 hover:text-white transition-colors p-2">
