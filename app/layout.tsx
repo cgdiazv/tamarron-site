@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingSocials from "@/components/FloatingSocials"; // Import your new component
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,6 +35,8 @@ export default function RootLayout({
         </main>
 
         <Footer />
+        {/* Paste your G- code directly here */}
+        <GoogleAnalytics gaId="G-WFL4RLHT9Q" />
       </body>
     </html>
   );
