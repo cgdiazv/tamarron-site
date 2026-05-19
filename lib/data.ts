@@ -121,7 +121,6 @@ export const LOCAL_POSTS: BlogPost[] = [
     excerpt: "Building without a permit can be a costly mistake. Learn why city and HOA approvals are essential for your next backyard project.",
     image: "/building-without-permits.webp",
     content: `
-      <h1>Do You Need a Permit to Build a Patio in Katy, TX? Here’s What Homeowners Should Know</h1>
 <p>If you are thinking about building a patio in Katy, Texas, one of the first questions you should ask is simple: do you need a permit? The short answer is yes, in most cases you do. However, the full answer depends on several factors, and this is where many homeowners get confused. Understanding how permits and approvals work can save you time, money, and unnecessary stress before your project even begins.</p>
 
 <h2>Why Permits Matter More Than You Think</h2>
@@ -153,7 +152,6 @@ export const LOCAL_POSTS: BlogPost[] = [
     excerpt: "Is your patio going unused because of heat or bugs? Discover how motorized screens provide the control and comfort you need.",
     image: "/motorized-screens-are-they-worth-it.webp",
     content: `
-      <h1>Motorized Screens: Are They Worth It or Just Another Upgrade?</h1>
 <p>Many homeowners in Texas invest in their backyard expecting to use it more. They build a patio, add furniture, and sometimes even install a pergola or a roof extension. At first, it feels like a great upgrade, but after a few weeks, something changes. They stop using it. Not because the space is not there, but because it is not comfortable enough to stay outside. The sun becomes too intense, mosquitoes show up, and privacy starts to feel limited. Little by little, the patio becomes just another part of the house that looks good but does not get used.</p>
 
 <p>This is where most people start asking the wrong question. They think they need more space, when in reality what they need is more control over the space they already have.</p>
@@ -190,7 +188,6 @@ export const LOCAL_POSTS: BlogPost[] = [
     excerpt: "Spring is here! Turn your backyard into a functional extension of your home with these five smart structural upgrades.",
     image: "/five-smart-ways-to-upgrade.webp",
     content: `
-      <h1>5 Smart Ways to Upgrade Your Backyard in Texas for Spring and Summer</h1>
 <p>Spring in Texas changes how you use your home.</p>
 <p>The weather improves, days feel longer, and weekends start filling up with family time, barbecues, and outdoor plans.</p>
 <p>But for many homeowners, the backyard does not match that lifestyle.</p>
