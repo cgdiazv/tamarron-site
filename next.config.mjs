@@ -4,9 +4,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'tamarronservices.com',
-        port: '',
-        pathname: '/wp-content/uploads/**',
+        hostname: '**.amazonaws.com', // Por si acaso para el hosting de Behold
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cdninstagram.com', // 👈 ESTA ES LA REGLA QUE SOLUCIONA EL ERROR ACTUAL
       },
     ],
   },

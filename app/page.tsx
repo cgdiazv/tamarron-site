@@ -1,5 +1,6 @@
 "use client";
 
+import InstagramFeed from '@/components/InstagramFeed';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -348,7 +349,8 @@ export default function Page() {
           </div>
         </div>
       </section>
-     
+      {/* NUEVO FEED DE INSTAGRAM AUTOMÁTICO */}
+      <InstagramFeed />
     </div>
   );
 }
