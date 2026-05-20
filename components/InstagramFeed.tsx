@@ -71,7 +71,7 @@ export default function InstagramFeed() {
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-2">
               <h2 className="text-xl font-bold text-slate-800 tracking-tight">Tamarron Services</h2>
               <a 
-                href="https://instagram.com" 
+                href="https://instagram.com/tamarronservices" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="bg-[#0095f6] hover:bg-sky-600 text-white font-bold text-xs px-6 py-2 rounded-lg transition-colors shadow-sm"
