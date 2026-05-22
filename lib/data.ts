@@ -112,3 +112,6 @@ export const LOCAL_SERVICES: Service[] = [
     image: "/general-construction.webp"
   }
 ];
+
+// Al final de tu archivo lib/data.ts, asegúrate de mantener esto:
+export const LOCAL_POSTS = [];

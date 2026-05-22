@@ -1,11 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { LOCAL_POSTS } from '@/lib/data';
+import { getCombinedPosts } from '@/lib/blogReader'; // 👈 Importamos el lector unificado
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = LOCAL_POSTS.find((p) => p.slug === slug);
+  
+  // 👈 Obtenemos el universo unificado de artículos (JSONs de GitHub + Fijos vacíos)
+  const posts = getCombinedPosts();
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     notFound();
@@ -32,7 +35,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         {/* Date */}
         <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-8">
-          {post.date}
+          {(() => {
+            // 💡 Formateamos dinámicamente la fecha si viene con guiones
+            if (post.date && post.date.includes('-')) {
+              const parts = post.date.split('-');
+              const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+              return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            }
+            return post.date;
+          })()}
         </p>
 
         {/* Content */}
