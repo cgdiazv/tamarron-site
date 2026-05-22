@@ -34,7 +34,7 @@ export function getCombinedPosts(): CombinedPost[] {
           slug,
           title: data.title,
           date: data.date, // Formato "YYYY-MM-DD" o texto libre
-          excerpt: data.content.replace(/<[^>]*>/g, '').substring(0, 140) + '...', // Limpia HTML para el resumen
+          excerpt: data.excerpt || data.content.replace(/<[^>]*>/g, '').substring(0, 140) + '...', // Limpia HTML para el resumen
           image: '/blog-placeholder.webp', // Imagen por defecto para los posts de la agencia
           content: data.content,
           author: data.author

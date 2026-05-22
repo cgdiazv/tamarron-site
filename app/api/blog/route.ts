@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_REPO; // ej. "tu-usuario/tamarron-next"
+  const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || "main";
 
   if (!token || !repo) {
@@ -11,33 +11,36 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const { title, content, author, date, imageName, imageBase64 } = body;
+    // 👈 Capturamos el slug y excerpt personalizados del body
+    const { title, slug: customSlug, excerpt, content, author, date, imageName, imageBase64 } = body;
 
-    // Validamos que también venga la imagen en base64 desde la computadora local
-    if (!title || !content || !imageBase64) {
-      return NextResponse.json({ error: 'El título, contenido e imagen destacada son obligatorios.' }, { status: 400 });
+    if (!title || !content || !imageBase64 || !excerpt) {
+      return NextResponse.json({ error: 'El título, extracto, contenido e imagen son obligatorios.' }, { status: 400 });
     }
 
-    // 1. Crear un slug limpio para la URL y los nombres de archivos
-    const slug = title
+    // 1. Validar y limpiar el slug personalizado ingresado por la agencia
+    const finalSlug = (customSlug || title)
       .toLowerCase()
       .trim()
       .replace(/[^\w\s-]/g, '')
       .replace(/[\s_-]+/g, '-')
       .replace(/^-+|-+$/g, '');
 
-    // Extaer la extensión del archivo original (ej. jpg, png, webp)
+    if (!finalSlug) {
+      return NextResponse.json({ error: 'El URL Slug no es válido.' }, { status: 400 });
+    }
+
+    // Extraer extensión del archivo original
     const fileExtension = imageName.split('.').pop() || 'jpg';
-    const finalImageName = `${slug}.${fileExtension}`;
+    const finalImageName = `${finalSlug}.${fileExtension}`;
 
-    // Definimos las rutas físicas dentro de tu repositorio de GitHub
+    // Rutas físicas en el repositorio de GitHub
     const gitImagePath = `public/uploads/blog/${finalImageName}`;
-    const gitJsonPath = `data/posts/${slug}.json`;
+    const gitJsonPath = `data/posts/${finalSlug}.json`;
 
-    // Esta es la ruta URL estática con la que Next.js leerá la imagen desde el navegador
+    // Ruta de lectura para Next.js Image
     const publicImagePublicPath = `/uploads/blog/${finalImageName}`;
 
-    // Headers reutilizables para autenticarnos con la API REST de GitHub
     const githubHeaders = {
       Authorization: `Bearer ${token}`,
       Accept: 'application/vnd.github+json',
@@ -46,14 +49,14 @@ export async function POST(request: Request) {
     };
 
     // ========================================================
-    // ACCIÓN A: SUBIR LA IMAGEN FÍSICA A GITHUB
+    // ACCIÓN A: SUBIR LA IMAGEN A GITHUB
     // ========================================================
     const uploadImageRes = await fetch(`https://api.github.com/repos/${repo}/contents/${gitImagePath}`, {
       method: 'PUT',
       headers: githubHeaders,
       body: JSON.stringify({
         message: `Media: subida de imagen destacada para - ${title}`,
-        content: imageBase64, // Mandamos el string binario limpio que procesó el FileReader
+        content: imageBase64,
         branch: branch,
       }),
     });
@@ -65,18 +68,18 @@ export async function POST(request: Request) {
     }
 
     // ========================================================
-    // ACCIÓN B: ESTRUCTURAR Y GUARDAR EL JSON DEL ARTÍCULO
+    // ACCIÓN B: GUARDAR EL ARCHIVO JSON CON EXCERPT Y SLUG REAL
     // ========================================================
     const postData = {
-      slug,
+      slug: finalSlug,
       title,
+      excerpt, // 👈 Guardamos el resumen exacto escrito por marketing
       author: author || 'Tamarron Services',
-      date: date || new Date().toISOString().split('T')[0],
-      image: publicImagePublicPath, // 👈 Guardamos el link interno de la foto vinculada
+      date: date || new Date().toISOString().split('T')[0], // 👈 Fecha automática en formato YYYY-MM-DD
+      image: publicImagePublicPath,
       content: content,
     };
 
-    // Convertir el objeto completo a texto JSON ordenado y luego a Base64
     const contentBase64 = Buffer.from(JSON.stringify(postData, null, 2)).toString('base64');
 
     const response = await fetch(`https://api.github.com/repos/${repo}/contents/${gitJsonPath}`, {
@@ -92,10 +95,10 @@ export async function POST(request: Request) {
     if (!response.ok) {
       const errorData = await response.json();
       console.error('Error de GitHub API al guardar JSON:', errorData);
-      return NextResponse.json({ error: 'Se almacenó la imagen pero falló el archivo de datos en GitHub.' }, { status: response.status });
+      return NextResponse.json({ error: 'Se almacenó la imagen pero falló el archivo de datos.' }, { status: response.status });
     }
 
-    return NextResponse.json({ success: true, slug });
+    return NextResponse.json({ success: true, slug: finalSlug });
   } catch (error) {
     console.error('Error del servidor:', error);
     return NextResponse.json({ error: 'Error interno del servidor.' }, { status: 500 });
