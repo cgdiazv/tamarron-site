@@ -2,24 +2,40 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ShieldAlert, Lock, User } from 'lucide-react';
+import { ShieldAlert, Lock, User, Loader2 } from 'lucide-react';
+import { loginAdmin } from './actions'; // 👈 Conectamos con tus Server Actions reales
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isPending, setIsPending] = useState(false); // 👈 Estado para deshabilitar el botón al cargar
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsPending(true);
+    setError('');
     
-    // We can secure this with an API route later, but let's test the interface logic first
-    if (username === "tamarron_admin" && password === "TamarronMarketing2026!") {
-      // Temporary token for prototype testing
-      localStorage.setItem('admin_token', 'authenticated_tamarron_session');
-      router.push('/admin/dashboard');
-    } else {
-      setError('Credenciales incorrectas. Intente de nuevo.');
+    // 🚀 Creamos el FormData que espera tu backend seguro
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    try {
+      const result = await loginAdmin(formData); // 👈 Ejecutamos el login real con cookies
+
+      if (result.success) {
+        // Aseguramos que Next.js actualice el estado de las rutas y el Middleware reconozca la cookie
+        router.refresh();
+        router.push('/admin/dashboard');
+      } else {
+        setError(result.error || 'Credenciales incorrectas. Intente de nuevo.');
+        setIsPending(false);
+      }
+    } catch (err) {
+      setError('Ocurrió un error inesperado de comunicación.');
+      setIsPending(false);
     }
   };
 
@@ -46,7 +62,8 @@ export default function AdminLogin() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#00a4dd] focus:bg-white transition-all text-slate-800"
-                placeholder="ej. tamarron_agency"
+                placeholder="ej. tamarron_admin"
+                disabled={isPending}
                 required
               />
             </div>
@@ -64,6 +81,7 @@ export default function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-[#00a4dd] focus:bg-white transition-all text-slate-800"
                 placeholder="••••••••••••"
+                disabled={isPending}
                 required
               />
             </div>
@@ -77,9 +95,17 @@ export default function AdminLogin() {
 
           <button 
             type="submit"
-            className="w-full bg-[#00a4dd] hover:bg-sky-600 text-white font-bold text-sm py-3.5 rounded-xl transition-colors shadow-md hover:shadow-lg mt-2"
+            disabled={isPending}
+            className="w-full bg-[#00a4dd] hover:bg-sky-600 text-white font-bold text-sm py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg mt-2 flex items-center justify-center gap-2 disabled:opacity-60"
           >
-            Ingresar al Portal
+            {isPending ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                <span>Verificando...</span>
+              </>
+            ) : (
+              <span>Ingresar al Portal</span>
+            )}
           </button>
         </form>
       </div>
