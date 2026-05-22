@@ -10,6 +10,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.cdninstagram.com', // 👈 ESTA ES LA REGLA QUE SOLUCIONA EL ERROR ACTUAL
       },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com', // 👈 NUEVA REGLA: Permite renderizar fotos desde tu repo de GitHub
+        pathname: '/**',
+      },
     ],
   },
 };

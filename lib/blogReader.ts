@@ -13,6 +13,8 @@ interface CombinedPost {
 }
 
 const postsDirectory = path.join(process.cwd(), 'data/posts');
+// 💡 Leemos la rama de las variables de entorno para armar la URL de la imagen
+const branch = process.env.GITHUB_BRANCH || "main"; 
 
 export function getCombinedPosts(): CombinedPost[] {
   let gitPosts: CombinedPost[] = [];
@@ -29,13 +31,20 @@ export function getCombinedPosts(): CombinedPost[] {
         const fileContents = fs.readFileSync(fullPath, 'utf8');
         const data = JSON.parse(fileContents);
 
+        // 🖼️ Detectamos la extensión de la foto (.png, .jpg, etc.) guardada en el JSON
+        const fileExtension = data.image ? data.image.split('.').pop() : 'png';
+        
+        // 🚀 Construimos la URL del CDN crudo de GitHub para saltarnos la restricción de caché de Vercel
+        const rawGitHubImageUrl = `https://raw.githubusercontent.com/${process.env.GITHUB_REPO}/${branch}/public/uploads/blog/${slug}.${fileExtension}`;
+
         // Adaptamos el JSON de la agencia para que use los mismos campos de tu diseño
         return {
           slug,
           title: data.title,
-          date: data.date, // Formato "YYYY-MM-DD" o texto libre
-          excerpt: data.excerpt || data.content.replace(/<[^>]*>/g, '').substring(0, 140) + '...', // Limpia HTML para el resumen
-          image: '/blog-placeholder.webp', // Imagen por defecto para los posts de la agencia
+          date: data.date, 
+          excerpt: data.excerpt || data.content.replace(/<[^>]*>/g, '').substring(0, 140) + '...', 
+          // 💡 Si el JSON tiene una imagen registrada, usamos el enlace directo de GitHub, si no, el placeholder
+          image: data.image ? rawGitHubImageUrl : '/blog-placeholder.webp', 
           content: data.content,
           author: data.author
         };

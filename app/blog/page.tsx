@@ -35,7 +35,19 @@ export default function BlogPage() {
                       className="object-cover group-hover:scale-105 transition-transform duration-500" 
                     />
                   </div>
-                  <p className="text-slate-400 text-xs mb-2 uppercase font-bold tracking-widest">{post.date}</p>
+                  <p className="text-slate-400 text-xs mb-2 uppercase font-bold tracking-widest">
+                    {(() => {
+                      // Si la fecha ya viene con guiones (ej: "2026-05-22") la transformamos
+                      if (post.date && post.date.includes('-')) {
+                        const parts = post.date.split('-');
+                        // Forzamos la interpretación local para evitar desfases de zona horaria
+                        const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+                        return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                      } 
+                      // Si no viene con guiones (como tus posts viejos), la deja tal cual
+                      return post.date;
+                    })()}
+                  </p>
                   <h2 className="text-xl font-bold text-slate-800 group-hover:text-[#00a4dd] transition-colors line-clamp-2">{post.title}</h2>
                   <p className="text-slate-500 text-sm mt-2 line-clamp-2">{post.excerpt}</p>
                 </Link>
