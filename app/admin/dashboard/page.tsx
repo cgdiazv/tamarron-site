@@ -82,7 +82,7 @@ export default function AdminDashboard() {
 
       setStatus({
         type: 'success',
-        message: `¡Post publicado con éxito! GitHub ya recibió todo. Slug final: ${data.slug}`,
+        message: `¡Post publicado con éxito! Tamarron Services ya recibió todo. Slug final: ${data.slug}`,
       });
       
       // Limpiamos los campos
