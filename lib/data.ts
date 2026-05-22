@@ -115,37 +115,6 @@ export const LOCAL_SERVICES: Service[] = [
 
 export const LOCAL_POSTS: BlogPost[] = [
   {
-    title: "Do You Need a Permit to Build a Patio in Katy, TX?",
-    slug: "patio-permits-katy-tx",
-    date: "May 13, 2026",
-    excerpt: "Building without a permit can be a costly mistake. Learn why city and HOA approvals are essential for your next backyard project.",
-    image: "/building-without-permits.webp",
-    content: `
-<p>If you are thinking about building a patio in Katy, Texas, one of the first questions you should ask is simple: do you need a permit? The short answer is yes, in most cases you do. However, the full answer depends on several factors, and this is where many homeowners get confused. Understanding how permits and approvals work can save you time, money, and unnecessary stress before your project even begins.</p>
-
-<h2>Why Permits Matter More Than You Think</h2>
-<p>Many homeowners assume that building a patio is a simple upgrade that does not require much paperwork. In reality, most structural improvements in Texas require approval from the city and sometimes your Homeowners Association. This includes projects like concrete patios, pergolas, roof extensions, and other outdoor structures. Permits ensure that everything is built safely and meets local building codes. Skipping this step may seem like a way to save time, but it often leads to bigger problems later.</p>
-
-<h2>What Happens If You Build Without a Permit</h2>
-<p>Starting a project without the proper permits can create serious issues. You may face fines from the city, be required to stop construction, or even remove the structure entirely. It can also affect your home’s value if you decide to sell in the future, since unpermitted work can raise concerns during inspections. What seems like a shortcut can quickly turn into a costly mistake.</p>
-
-<h2>Do You Also Need HOA Approval</h2>
-<p>If you live in a community with a Homeowners Association, permits are only part of the process. Most HOAs require approval before any exterior modifications are made. This typically involves submitting a site plan, project details, and design specifications. Each community has its own guidelines and timelines, which can make the process more complex than expected. This step is often overlooked, but it is just as important as city permits.</p>
-
-<h2>What Is Typically Required for a Patio Permit</h2>
-<p>While requirements vary depending on the project, most patio permits in Texas require documentation such as a site plan showing your property layout, details of existing and proposed structures, construction specifications, and sometimes engineering or compliance reports. For many homeowners, this process can feel overwhelming, especially if they are not familiar with local requirements.</p>
-
-<h2>The Easier Way to Handle the Process</h2>
-<p>Building a patio is not just about design and construction, it is about doing things the right way from the beginning. Working with a professional team simplifies the entire process. Instead of dealing with permits, codes, and approvals on your own, you have a team that manages everything for you. From planning and paperwork to execution, every step is handled correctly and efficiently.</p>
-
-<h2>Build It Right from the Beginning</h2>
-<p>A patio is more than just an upgrade, it is an investment in your home and how you use your space. Making sure it is built with the proper permits and approvals protects that investment and gives you peace of mind knowing everything is done correctly, with no surprises later.</p>
-
-<h2>Ready to Start Your Patio Project</h2>
-<p>At Tamarron Services, we help homeowners design and build patios the right way from day one. We handle permits, HOA approvals, and construction so you do not have to worry about the process. If you are planning to upgrade your backyard, contact our team today and schedule your consultation. 📲 (234) 230-7015</p>
-    `
-  },
-  {
     title: "Motorized Screens: Are They Worth It or Just Another Upgrade?",
     slug: "motorized-screens-worth-it",
     date: "May 10, 2026",
