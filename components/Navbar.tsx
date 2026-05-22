@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // Hook para leer la URL actual
 import { 
   Menu, X, Phone, Info, Briefcase, Mail, 
   FileText, Users, ShieldCheck, Newspaper, ChevronRight 
@@ -10,6 +11,10 @@ import {
 
 const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Verificamos si la ruta actual pertenece al administrador
+  const isAdminPath = pathname?.startsWith('/admin');
 
   const navLinks = [
     { name: 'About Us', href: '/about-us', icon: <Info size={18} /> },
@@ -22,6 +27,30 @@ const Navbar = () => {
     { name: 'Blog', href: '/blog', icon: <Newspaper size={18} /> },
   ];
 
+  // ========================================================
+  // RENDER CORTO: NAVBAR EXCLUSIVO PARA EL DASHBOARD
+  // ========================================================
+  if (isAdminPath) {
+    return (
+      <nav className="w-full bg-white font-sans sticky top-0 z-[100] shadow-sm border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#00a4dd] animate-pulse" />
+            <span className="font-bold text-slate-800 tracking-tight text-base md:text-lg">
+              Tamarron <span className="text-[#00a4dd] font-semibold">CMS Dashboard</span>
+            </span>
+          </div>
+          <div className="text-[10px] bg-slate-100 font-bold uppercase tracking-wider text-slate-400 px-3 py-1 rounded-full">
+            Admin Panel
+          </div>
+        </div>
+      </nav>
+    );
+  }
+
+  // ========================================================
+  // RENDER NORMAL: NAVBAR PÚBLICO PARA CLIENTES
+  // ========================================================
   return (
     <nav className="w-full bg-white font-sans sticky top-0 z-[100] shadow-sm">
       {/* MAIN NAVBAR CONTAINER */}

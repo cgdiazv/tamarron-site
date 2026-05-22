@@ -3,8 +3,16 @@
 import React from 'react';
 import { FaFacebook, FaYoutube, FaInstagram, FaTiktok } from 'react-icons/fa';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation'; // 👈 Importamos el hook de rutas
 
 export default function FloatingSocials() {
+  const pathname = usePathname(); // 👈 Inicializamos el lector de la URL
+
+  // 💡 Si la ruta actual pertenece al administrador, no renderizamos nada
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const socials = [
     { 
       name: 'Facebook', 
