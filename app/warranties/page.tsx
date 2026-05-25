@@ -1,17 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function WarrantiesPage() {
   return (
     <div className="min-h-screen bg-white font-sans">
       
-      {/* HEADER SECTION (Consistent Grey Background) */}
-      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase tracking-tight">
-            Warranties
-          </h1>
-        </div>
+      {/* HEADER SECTION (Image Banner) */}
+      <section className="relative w-full h-[300px] md:h-[400px]">
+        <Image
+          src="/headers/warranties.webp"
+          alt="Warranties"
+          fill
+          priority
+          className="object-cover"
+        />
       </section>
 
       {/* MAIN CONTENT SECTION */}
