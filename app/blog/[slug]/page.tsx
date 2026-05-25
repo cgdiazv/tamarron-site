@@ -17,12 +17,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <article className="min-h-screen bg-white pb-20">
       {/* Featured Image */}
-      <div className="relative w-full h-[300px] md:h-[500px]">
+      <div className="w-full">
         <Image 
           src={post.image} 
           alt={post.title} 
-          fill 
-          className="object-cover" 
+          width={1200}
+          height={675}
+          sizes="100vw"
+          className="w-full h-auto object-contain max-h-[80vh]" 
           priority 
         />
       </div>

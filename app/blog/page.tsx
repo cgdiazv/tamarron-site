@@ -27,12 +27,13 @@ export default function BlogPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {posts.map((post) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`} className="group block">
-                  <div className="relative aspect-video rounded-xl overflow-hidden mb-4 shadow-md bg-slate-100">
+                  <div className="relative rounded-xl overflow-hidden mb-4 shadow-md bg-slate-100">
                     <Image 
                       src={post.image} 
                       alt={post.title} 
-                      fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                      width={1200}
+                      height={675}
+                      className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500" 
                     />
                   </div>
                   <p className="text-slate-400 text-xs mb-2 uppercase font-bold tracking-widest">
