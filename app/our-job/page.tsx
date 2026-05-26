@@ -1,14 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function OurJobPage() {
   return (
     <div className="min-h-screen bg-white font-sans">
       
-      {/* HEADER SECTION (Consistent Grey Background) */}
-      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase tracking-tight">
+      {/* HEADER SECTION (Image Banner) */}
+      <section className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center">
+        <Image
+          src="/headers/our-job.webp"
+          alt="Our Job"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight drop-shadow-lg">
             Our Job
           </h1>
         </div>
@@ -34,7 +43,7 @@ export default function OurJobPage() {
                   <li>Landscape adjustments not described in the quote.</li>
                 </ul>
               </li>
-              <li>Your grass will suffer during the process. We will do our best to take care of it, but we won't replace or install new grass. Price for replacement or installation of grass will be quoted separately.</li>
+              <li>Your grass will suffer during the process. We will do our best to take care of it, but we won&apos;t replace or install new grass. Price for replacement or installation of grass will be quoted separately.</li>
               <li><strong className="text-slate-800">Note:</strong> Repairs, adjustments or improvements for an existing product or item will not make the products look like new, they only improve their appearance but do not completely repair them, please keep this in mind and expect quality not perfection.</li>
             </ul>
           </div>

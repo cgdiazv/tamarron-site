@@ -7,7 +7,7 @@ export default function WarrantiesPage() {
     <div className="min-h-screen bg-white font-sans">
       
       {/* HEADER SECTION (Image Banner) */}
-      <section className="relative w-full h-[300px] md:h-[400px]">
+      <section className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center">
         <Image
           src="/headers/warranties.webp"
           alt="Warranties"
@@ -15,6 +15,12 @@ export default function WarrantiesPage() {
           priority
           className="object-cover"
         />
+        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight drop-shadow-lg">
+            Warranties
+          </h1>
+        </div>
       </section>
 
       {/* MAIN CONTENT SECTION */}
