@@ -1,12 +1,26 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getCombinedPosts } from '@/lib/blogReader'; // 👈 Cambiamos el import aquí
+import { getCombinedPosts } from '@/lib/blogReader';
 
 export const revalidate = 60; // Vercel revisará si hay posts nuevos en Git cada 60 segundos
 
 export default function BlogPage() {
-  const posts = getCombinedPosts(); // 👈 Trae la mezcla de posts locales + creados por la agencia
+  // 1. Traemos el universo de artículos híbridos
+  const rawPosts = getCombinedPosts(); 
+
+  // 2. 🎯 Los ordenamos cronológicamente: el más reciente primero
+  const posts = [...rawPosts].sort((a, b) => {
+    // Si no hay fecha en alguno, lo mandamos al final
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    
+    // Convertimos las fechas (ej: "2026-05-22") a milisegundos para comparar números directamente
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    
+    return dateB - dateA; // Orden descendente (más nuevo a más viejo)
+  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -38,14 +52,11 @@ export default function BlogPage() {
                   </div>
                   <p className="text-slate-400 text-xs mb-2 uppercase font-bold tracking-widest">
                     {(() => {
-                      // Si la fecha ya viene con guiones (ej: "2026-05-22") la transformamos
                       if (post.date && post.date.includes('-')) {
                         const parts = post.date.split('-');
-                        // Forzamos la interpretación local para evitar desfases de zona horaria
                         const dateObj = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
                         return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                       } 
-                      // Si no viene con guiones (como tus posts viejos), la deja tal cual
                       return post.date;
                     })()}
                   </p>
