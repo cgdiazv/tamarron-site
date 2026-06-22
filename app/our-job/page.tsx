@@ -15,9 +15,9 @@ export default function OurJobPage() {
           priority
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-black/40"></div>
+        <div className="absolute inset-0"></div>
         <div className="relative z-10 text-center px-6">
-          <h1 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight drop-shadow-lg">
+          <h1 className="text-3xl md:text-[72pt] font-bold text-white tracking-tight drop-shadow-lg">
             Our Job
           </h1>
         </div>

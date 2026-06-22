@@ -12,13 +12,21 @@ export default function AboutUs() {
     <div className="min-h-screen bg-white font-sans">
       
       {/* HEADER SECTION (Consistent with Services and Contact) */}
-      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase tracking-tight">
-            About Us
-          </h1>
-        </div>
-      </section>
+      <section className="relative w-full h-[300px] md:h-[400px] flex items-center justify-center">
+              <Image
+                src="/headers/about-us.webp"
+                alt="About Us"
+                fill
+                priority
+                className="object-cover"
+              />
+              <div className="absolute inset-0"></div>
+              <div className="relative z-10 text-center px-6">
+                <h1 className="text-3xl md:text-[72pt] font-bold text-white tracking-tight drop-shadow-lg">
+                  About Us
+                </h1>
+              </div>
+            </section>
 
       {/* MISSION, VISION, VALUES SECTION */}
       <section className="py-16 md:py-24 overflow-hidden">
