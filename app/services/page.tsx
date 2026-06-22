@@ -7,7 +7,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header Section */}
-      <section className="py-16 md:py-24 bg-slate-50">
+      <section className="py-16 md:py-24 relative w-full h-[300px] md:h-[200px] flex items-center justify-center bg-slate-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h1 className="text-3xl md:text-5xl font-bold text-slate-800 mb-8 uppercase tracking-tight">
             Complete Patio Solutions

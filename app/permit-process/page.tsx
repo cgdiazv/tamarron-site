@@ -7,7 +7,7 @@ export default function PermitProcessPage() {
     <div className="min-h-screen bg-white font-sans">
       
       {/* HEADER SECTION */}
-      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-100">
+      <section className="py-16 md:py-20 relative w-full h-[300px] md:h-[200px] flex items-center justify-center bg-slate-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase tracking-tight">
             Permit Process

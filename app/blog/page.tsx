@@ -24,7 +24,7 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="py-16 bg-slate-50 border-b border-slate-100">
+      <section className="py-16 relative w-full h-[300px] md:h-[200px] flex items-center justify-center bg-slate-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase">Our Blog</h1>
         </div>
