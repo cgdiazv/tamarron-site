@@ -12,7 +12,7 @@ export default function AboutUs() {
     <div className="min-h-screen bg-white font-sans">
       
       {/* HEADER SECTION (Consistent with Services and Contact) */}
-      <section className="relative w-full h-[300px] md:h-[200px] flex items-center justify-center">
+      <section className="relative w-full h-[200px] md:h-[200px] flex items-center justify-center">
               <Image
                 src="/headers/about-us.webp"
                 alt="About Us"
