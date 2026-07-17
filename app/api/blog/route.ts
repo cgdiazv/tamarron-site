@@ -5,6 +5,18 @@ type GitHubErrorPayload = {
   errors?: Array<{ message?: string }>;
 };
 
+function normalizeGitHubToken(rawToken: string): string {
+  return rawToken
+    .trim()
+    .replace(/^Bearer\s+/i, '')
+    .replace(/^token\s+/i, '');
+}
+
+function getGitHubAuthHeader(rawToken: string): string {
+  const normalizedToken = normalizeGitHubToken(rawToken);
+  return `token ${normalizedToken}`;
+}
+
 async function parseGitHubError(response: Response): Promise<string> {
   try {
     const payload = (await response.json()) as GitHubErrorPayload;
@@ -32,7 +44,7 @@ async function upsertRepoFile({
 }) {
   const url = `https://api.github.com/repos/${repo}/contents/${path}`;
   const headers = {
-    Authorization: `Bearer ${token}`,
+    Authorization: getGitHubAuthHeader(token),
     Accept: 'application/vnd.github+json',
     'Content-Type': 'application/json',
     'X-GitHub-Api-Version': '2022-11-28',
@@ -50,6 +62,9 @@ async function upsertRepoFile({
     sha = existingData.sha;
   } else if (existingRes.status !== 404) {
     const details = await parseGitHubError(existingRes);
+    if (/bad credentials/i.test(details)) {
+      throw new Error('GitHub rechazó las credenciales. Revisa GITHUB_TOKEN en el entorno del servidor (token inválido, expirado o mal copiado).');
+    }
     throw new Error(`No se pudo validar el archivo en GitHub (${path}): ${details}`);
   }
 
@@ -76,6 +91,9 @@ async function upsertRepoFile({
 
   if (!putRes.ok) {
     const details = await parseGitHubError(putRes);
+    if (/bad credentials/i.test(details)) {
+      throw new Error('GitHub rechazó las credenciales. Revisa GITHUB_TOKEN en el entorno del servidor (token inválido, expirado o mal copiado).');
+    }
     throw new Error(`GitHub rechazó la escritura de ${path}: ${details}`);
   }
 }
@@ -87,6 +105,11 @@ export async function POST(request: Request) {
 
   if (!token || !repo) {
     return NextResponse.json({ error: 'Faltan configuraciones del servidor (Tokens).' }, { status: 500 });
+  }
+
+  const normalizedToken = normalizeGitHubToken(token);
+  if (!normalizedToken) {
+    return NextResponse.json({ error: 'GITHUB_TOKEN está vacío o mal configurado.' }, { status: 500 });
   }
 
   try {
@@ -137,7 +160,7 @@ export async function POST(request: Request) {
       await upsertRepoFile({
         repo,
         branch,
-        token,
+        token: normalizedToken,
         path: gitImagePath,
         message: `Media: subida de imagen destacada para - ${title}`,
         content: imageBase64,
@@ -167,7 +190,7 @@ export async function POST(request: Request) {
       await upsertRepoFile({
         repo,
         branch,
-        token,
+        token: normalizedToken,
         path: gitJsonPath,
         message: `Feat: nuevo post publicado desde el portal - ${title}`,
         content: contentBase64,
