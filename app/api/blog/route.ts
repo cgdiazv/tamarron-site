@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import { isFirebaseBlogConfigured, publishBlogPost } from '@/lib/firebaseBlog';
+
+export const runtime = 'nodejs';
 
 type GitHubErrorPayload = {
   message?: string;
@@ -99,6 +102,33 @@ async function upsertRepoFile({
 }
 
 export async function POST(request: Request) {
+  if (isFirebaseBlogConfigured()) {
+    try {
+      const body = await request.json();
+      const { title, slug: customSlug, excerpt, content, author, date, imageName, imageBase64 } = body;
+
+      if (!title || !content || !imageBase64 || !excerpt) {
+        return NextResponse.json({ error: 'El título, extracto, contenido e imagen son obligatorios.' }, { status: 400 });
+      }
+
+      const result = await publishBlogPost({
+        title,
+        slug: customSlug,
+        excerpt,
+        content,
+        author,
+        date,
+        imageName,
+        imageBase64,
+      });
+
+      return NextResponse.json({ success: true, slug: result.slug });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error interno del servidor.';
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
+  }
+
   const token = process.env.GITHUB_TOKEN;
   const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || "main";

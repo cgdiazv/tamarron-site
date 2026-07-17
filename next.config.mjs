@@ -15,6 +15,11 @@ const nextConfig = {
         hostname: 'raw.githubusercontent.com', // 👈 NUEVA REGLA: Permite renderizar fotos desde tu repo de GitHub
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        pathname: '/**',
+      },
     ],
   },
 };

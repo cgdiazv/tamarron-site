@@ -3,11 +3,13 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getCombinedPosts } from '@/lib/blogReader'; // 👈 Importamos el lector unificado
 
+export const revalidate = 60;
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   
   // 👈 Obtenemos el universo unificado de artículos (JSONs de GitHub + Fijos vacíos)
-  const posts = getCombinedPosts();
+  const posts = await getCombinedPosts();
   const post = posts.find((p) => p.slug === slug);
 
   if (!post) {

@@ -5,9 +5,9 @@ import { getCombinedPosts } from '@/lib/blogReader';
 
 export const revalidate = 60; // Vercel revisará si hay posts nuevos en Git cada 60 segundos
 
-export default function BlogPage() {
+export default async function BlogPage() {
   // 1. Traemos el universo de artículos híbridos
-  const rawPosts = getCombinedPosts(); 
+  const rawPosts = await getCombinedPosts(); 
 
   // 2. 🎯 Los ordenamos cronológicamente: el más reciente primero
   const posts = [...rawPosts].sort((a, b) => {

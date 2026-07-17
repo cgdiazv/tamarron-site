@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { deleteBlogPost, isFirebaseBlogConfigured } from '@/lib/firebaseBlog';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
@@ -10,13 +13,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Slug no proporcionado' }, { status: 400 });
     }
 
+    if (isFirebaseBlogConfigured()) {
+      await deleteBlogPost(slug);
+      return NextResponse.json({ success: true, message: 'Artículo eliminado correctamente' });
+    }
+
     // 1. SI ESTÁS USANDO ALMACENAMIENTO LOCAL EN PRODUCCIÓN/DESARROLLO:
     // Definimos la ruta al archivo JSON del post
-    const postsDirectory = path.join(process.cwd(), 'content/posts'); // Ajusta esta ruta según tu estructura
+    const postsDirectory = path.join(process.cwd(), 'data/posts');
     const filePath = path.join(postsDirectory, `${slug}.json`);
+
+    let imagePath: string | null = null;
+    if (fs.existsSync(filePath)) {
+      const rawData = fs.readFileSync(filePath, 'utf8');
+      const parsed = JSON.parse(rawData) as { image?: string };
+      if (typeof parsed.image === 'string' && parsed.image.startsWith('/uploads/blog/')) {
+        imagePath = path.join(process.cwd(), 'public', parsed.image.replace(/^\//, ''));
+      }
+    }
 
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
+    }
+
+    if (imagePath && fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
     }
 
     // 2. SI INTEGRAS DIRECTO CON LA API DE GITHUB (RECOMENDADO SI ESTÁ EN VERCEL):
