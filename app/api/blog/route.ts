@@ -1,5 +1,85 @@
 import { NextResponse } from 'next/server';
 
+type GitHubErrorPayload = {
+  message?: string;
+  errors?: Array<{ message?: string }>;
+};
+
+async function parseGitHubError(response: Response): Promise<string> {
+  try {
+    const payload = (await response.json()) as GitHubErrorPayload;
+    const nested = payload.errors?.map((err) => err.message).filter(Boolean).join(', ');
+    return [payload.message, nested].filter(Boolean).join(' | ') || `HTTP ${response.status}`;
+  } catch {
+    return `HTTP ${response.status}`;
+  }
+}
+
+async function upsertRepoFile({
+  repo,
+  branch,
+  token,
+  path,
+  message,
+  content,
+}: {
+  repo: string;
+  branch: string;
+  token: string;
+  path: string;
+  message: string;
+  content: string;
+}) {
+  const url = `https://api.github.com/repos/${repo}/contents/${path}`;
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: 'application/vnd.github+json',
+    'Content-Type': 'application/json',
+    'X-GitHub-Api-Version': '2022-11-28',
+  };
+
+  // If the file exists, GitHub requires the current SHA in the update payload.
+  const existingRes = await fetch(`${url}?ref=${encodeURIComponent(branch)}`, {
+    method: 'GET',
+    headers,
+  });
+
+  let sha: string | undefined;
+  if (existingRes.ok) {
+    const existingData = (await existingRes.json()) as { sha?: string };
+    sha = existingData.sha;
+  } else if (existingRes.status !== 404) {
+    const details = await parseGitHubError(existingRes);
+    throw new Error(`No se pudo validar el archivo en GitHub (${path}): ${details}`);
+  }
+
+  const putBody: {
+    message: string;
+    content: string;
+    branch: string;
+    sha?: string;
+  } = {
+    message,
+    content,
+    branch,
+  };
+
+  if (sha) {
+    putBody.sha = sha;
+  }
+
+  const putRes = await fetch(url, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(putBody),
+  });
+
+  if (!putRes.ok) {
+    const details = await parseGitHubError(putRes);
+    throw new Error(`GitHub rechazó la escritura de ${path}: ${details}`);
+  }
+}
+
 export async function POST(request: Request) {
   const token = process.env.GITHUB_TOKEN;
   const repo = process.env.GITHUB_REPO;
@@ -16,6 +96,15 @@ export async function POST(request: Request) {
 
     if (!title || !content || !imageBase64 || !excerpt) {
       return NextResponse.json({ error: 'El título, extracto, contenido e imagen son obligatorios.' }, { status: 400 });
+    }
+
+    // GitHub Contents API accepts files up to ~1 MB per request.
+    const estimatedImageBytes = Math.floor((imageBase64.length * 3) / 4);
+    if (estimatedImageBytes > 1_000_000) {
+      return NextResponse.json(
+        { error: 'La imagen supera 1 MB. Reduce su tamaño o compresión antes de publicar.' },
+        { status: 413 }
+      );
     }
 
     // 1. Validar y limpiar el slug personalizado ingresado por la agencia
@@ -41,30 +130,22 @@ export async function POST(request: Request) {
     // Ruta de lectura para Next.js Image
     const publicImagePublicPath = `/uploads/blog/${finalImageName}`;
 
-    const githubHeaders = {
-      Authorization: `Bearer ${token}`,
-      Accept: 'application/vnd.github+json',
-      'Content-Type': 'application/json',
-      'X-GitHub-Api-Version': '2022-11-28',
-    };
-
     // ========================================================
     // ACCIÓN A: SUBIR LA IMAGEN A GITHUB
     // ========================================================
-    const uploadImageRes = await fetch(`https://api.github.com/repos/${repo}/contents/${gitImagePath}`, {
-      method: 'PUT',
-      headers: githubHeaders,
-      body: JSON.stringify({
+    try {
+      await upsertRepoFile({
+        repo,
+        branch,
+        token,
+        path: gitImagePath,
         message: `Media: subida de imagen destacada para - ${title}`,
         content: imageBase64,
-        branch: branch,
-      }),
-    });
-
-    if (!uploadImageRes.ok) {
-      const imgErr = await uploadImageRes.json();
-      console.error('Error subiendo imagen a GitHub:', imgErr);
-      return NextResponse.json({ error: 'No se pudo almacenar la imagen en el repositorio.' }, { status: 500 });
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No se pudo almacenar la imagen en el repositorio.';
+      console.error('Error subiendo imagen a GitHub:', message);
+      return NextResponse.json({ error: message }, { status: 500 });
     }
 
     // ========================================================
@@ -82,20 +163,19 @@ export async function POST(request: Request) {
 
     const contentBase64 = Buffer.from(JSON.stringify(postData, null, 2)).toString('base64');
 
-    const response = await fetch(`https://api.github.com/repos/${repo}/contents/${gitJsonPath}`, {
-      method: 'PUT',
-      headers: githubHeaders,
-      body: JSON.stringify({
+    try {
+      await upsertRepoFile({
+        repo,
+        branch,
+        token,
+        path: gitJsonPath,
         message: `Feat: nuevo post publicado desde el portal - ${title}`,
         content: contentBase64,
-        branch: branch,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Error de GitHub API al guardar JSON:', errorData);
-      return NextResponse.json({ error: 'Se almacenó la imagen pero falló el archivo de datos.' }, { status: response.status });
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Se almacenó la imagen pero falló el archivo de datos.';
+      console.error('Error de GitHub API al guardar JSON:', message);
+      return NextResponse.json({ error: message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, slug: finalSlug });
