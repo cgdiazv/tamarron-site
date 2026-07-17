@@ -136,7 +136,7 @@ function getContentType(fileExtension: string): string {
 }
 
 function buildStorageDownloadUrl(bucketName: string, filePath: string, token: string): string {
-  const encodedPath = encodeURIComponent(filePath).replace(/%2F/g, '/');
+  const encodedPath = encodeURIComponent(filePath);
   return `https://firebasestorage.googleapis.com/v0/b/${bucketName}/o/${encodedPath}?alt=media&token=${token}`;
 }
 

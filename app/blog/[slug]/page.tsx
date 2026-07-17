@@ -20,15 +20,24 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <article className="min-h-screen bg-white pb-20">
       {/* Featured Image */}
       <div className="w-full">
-        <Image 
-          src={post.image} 
-          alt={post.title} 
-          width={1200}
-          height={675}
-          sizes="100vw"
-          className="w-full h-auto object-contain max-h-[80vh]" 
-          priority 
-        />
+        {typeof post.image === 'string' && post.image.includes('firebasestorage.googleapis.com') ? (
+          <img
+            src={post.image}
+            alt={post.title}
+            className="w-full h-auto object-contain max-h-[80vh]"
+            loading="eager"
+          />
+        ) : (
+          <Image 
+            src={post.image} 
+            alt={post.title} 
+            width={1200}
+            height={675}
+            sizes="100vw"
+            className="w-full h-auto object-contain max-h-[80vh]" 
+            priority 
+          />
+        )}
       </div>
 
       <div className="max-w-3xl mx-auto px-6 mt-12">
