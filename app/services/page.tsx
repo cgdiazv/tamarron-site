@@ -6,10 +6,18 @@ import { LOCAL_SERVICES } from '@/lib/data';
 export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header Section */}
-      <section className="py-16 md:py-24 relative w-full h-[300px] md:h-[200px] flex items-center justify-center bg-slate-50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase tracking-tight">
+      <section className="relative h-[200px] md:h-[200px] flex items-center justify-center">
+        <Image 
+          src="/headers/services.webp" 
+          alt="Services Header" 
+          layout="fill" 
+          objectFit="cover" 
+          quality={100} 
+          className="absolute inset-0 z-0"
+        />
+
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-20">
+          <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
             Complete Patio Solutions
           </h1>
         </div>
