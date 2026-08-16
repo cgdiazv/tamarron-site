@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 export default function ContactPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -52,10 +53,18 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* HEADER SECTION */}
-      <section className="py-16 md:py-20 relative w-full h-[200px] md:h-[200px] flex items-center justify-center bg-slate-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase tracking-tight">
+      {/* HEADER SECTION (Image Banner) */}
+      <section className="relative w-full h-[200px] md:h-[200px] flex items-center justify-center">
+        <Image
+          src="/headers/contact-us.webp"
+          alt="Contact Us"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0"></div>
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-3xl md:text-[72pt] font-bold text-white tracking-tight drop-shadow-lg">
             Contact Us
           </h1>
         </div>
