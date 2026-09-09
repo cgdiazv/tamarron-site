@@ -1,56 +1,7 @@
-"use client";
-
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 
 export default function ContactPage() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const specialties = [
-    "Roof Extension", "Pergolas & Gazebos", "Concrete Job", 
-    "Stamped Concrete", "Spray Decks", "Pavers", 
-    "Outdoor Kitchen", "Motorized Screens", "Gutters", 
-    "Fences", "Retaining Walls", "Landscape Lights", 
-    "French Drains", "Pools", "Grass", "General Construction"
-  ];
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus('loading');
-
-    const formData = new FormData(e.currentTarget);
-    
-    // Constructing the body based on the API expectations
-    const data = {
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      email: formData.get('email'),
-      phone: formData.get('phone'), // Maps to 'Mobile' input
-      street: formData.get('street'),
-      city: formData.get('city'),
-      zip: formData.get('zip'),
-      specialty: formData.get('specialty'),
-      details: formData.get('details'),
-    };
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        (e.target as HTMLFormElement).reset();
-      } else {
-        setStatus('error');
-      }
-    } catch (err) {
-      setStatus('error');
-    }
-  }
-
   return (
     <div className="min-h-screen bg-white">
       {/* HEADER SECTION (Image Banner) */}
@@ -75,54 +26,74 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             
-            {/* LEFT COLUMN: FORM */}
+            {/* LEFT COLUMN: SALESFORCE WEB-TO-LEAD FORM */}
             <div className="bg-white">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input name="firstName" type="text" placeholder="First Name" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                  <input name="lastName" type="text" placeholder="Last Name" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input name="email" type="email" placeholder="Email" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                  <input name="phone" type="tel" placeholder="Mobile" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                </div>
-                <input name="street" type="text" placeholder="Street" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input name="city" type="text" placeholder="City" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                  <input name="zip" type="text" placeholder="Zip" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
-                </div>
-                <select name="specialty" required className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd] text-slate-500 bg-white">
-                  <option value="">Select Specialty</option>
-                  {specialties.map(item => (
-                    <option key={item} value={item}>{item}</option>
-                  ))}
-                </select>
-                <textarea 
-                  name="details"
-                  rows={4} 
-                  required
-                  placeholder="Please give us more details on the needs of the service required." 
-                  className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]"
-                ></textarea>
-                
-                <button 
-                  type="submit" 
-                  disabled={status === 'loading'}
-                  className="w-full md:w-auto bg-[#00a4dd] text-white font-bold text-sm uppercase tracking-widest px-12 py-4 rounded-full hover:bg-sky-600 transition-all shadow-md disabled:bg-slate-400"
-                >
-                  {status === 'loading' ? 'Sending...' : 'Submit'}
-                </button>
+              <form
+                action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00D4x000006sHlM"
+                method="POST"
+                className="space-y-4"
+              >
+                <input type="hidden" name="oid" value="00D4x000006sHlM" />
+                <input type="hidden" name="retURL" value="https://www.tamarronservices.com/services" />
 
-                {status === 'success' && (
-                  <p className="text-green-600 font-bold text-sm bg-green-50 p-3 rounded-md">
-                    Thank you! Your message has been sent successfully.
-                  </p>
-                )}
-                {status === 'error' && (
-                  <p className="text-red-600 font-bold text-sm bg-red-50 p-3 rounded-md">
-                    Oops! Something went wrong. Please try again or call us directly.
-                  </p>
-                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="first_name" className="block text-sm font-semibold text-slate-700 mb-1">First Name</label>
+                    <input id="first_name" name="first_name" maxLength={40} type="text" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
+                  </div>
+                  <div>
+                    <label htmlFor="last_name" className="block text-sm font-semibold text-slate-700 mb-1">Last Name</label>
+                    <input id="last_name" name="last_name" maxLength={80} type="text" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+                  <input id="email" name="email" maxLength={80} type="text" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
+                </div>
+
+                <div>
+                  <label htmlFor="street" className="block text-sm font-semibold text-slate-700 mb-1">Street</label>
+                  <textarea id="street" name="street" rows={2} className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]"></textarea>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-1">City</label>
+                    <input id="city" name="city" maxLength={40} type="text" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
+                  </div>
+                  <div>
+                    <label htmlFor="zip" className="block text-sm font-semibold text-slate-700 mb-1">Zip</label>
+                    <input id="zip" name="zip" maxLength={20} type="text" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="00N4x00000PoUVJ" className="block text-sm font-semibold text-slate-700 mb-1">Need</label>
+                  <textarea id="00N4x00000PoUVJ" name="00N4x00000PoUVJ" rows={3} wrap="soft" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]"></textarea>
+                </div>
+
+                <div>
+                  <label htmlFor="00N4x00000bfZcH" className="block text-sm font-semibold text-slate-700 mb-1">Business Unit</label>
+                  <select id="00N4x00000bfZcH" name="00N4x00000bfZcH" title="Business Unit" defaultValue="Tamarron Services" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd] bg-white">
+                    <option value="Tamarron Services">Tamarron Services</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="lead_source" className="block text-sm font-semibold text-slate-700 mb-1">Lead Source</label>
+                  <select id="lead_source" name="lead_source" defaultValue="Website" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd] bg-white">
+                    <option value="Website">Website</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  name="submit"
+                  className="w-full md:w-auto bg-[#00a4dd] text-white font-bold text-sm uppercase tracking-widest px-12 py-4 rounded-full hover:bg-sky-600 transition-all shadow-md"
+                >
+                  Submit
+                </button>
               </form>
             </div>
 
