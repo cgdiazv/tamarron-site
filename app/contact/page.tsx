@@ -53,6 +53,11 @@ export default function ContactPage() {
                 </div>
 
                 <div>
+                  <label htmlFor="mobile" className="block text-sm font-semibold text-slate-700 mb-1">Mobile</label>
+                  <input id="mobile" name="mobile" maxLength={40} type="text" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]" />
+                </div>
+
+                <div>
                   <label htmlFor="street" className="block text-sm font-semibold text-slate-700 mb-1">Street</label>
                   <textarea id="street" name="street" rows={2} className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]"></textarea>
                 </div>
@@ -73,19 +78,8 @@ export default function ContactPage() {
                   <textarea id="00N4x00000PoUVJ" name="00N4x00000PoUVJ" rows={3} wrap="soft" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd]"></textarea>
                 </div>
 
-                <div>
-                  <label htmlFor="00N4x00000bfZcH" className="block text-sm font-semibold text-slate-700 mb-1">Business Unit</label>
-                  <select id="00N4x00000bfZcH" name="00N4x00000bfZcH" title="Business Unit" defaultValue="Tamarron Services" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd] bg-white">
-                    <option value="Tamarron Services">Tamarron Services</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="lead_source" className="block text-sm font-semibold text-slate-700 mb-1">Lead Source</label>
-                  <select id="lead_source" name="lead_source" defaultValue="Website" className="w-full px-4 py-3 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-[#00a4dd] bg-white">
-                    <option value="Website">Website</option>
-                  </select>
-                </div>
+                <input type="hidden" id="00N4x00000bfZcH" name="00N4x00000bfZcH" value="Tamarron Services" />
+                <input type="hidden" id="lead_source" name="lead_source" value="Website" />
 
                 <button
                   type="submit"
