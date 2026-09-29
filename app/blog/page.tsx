@@ -24,9 +24,20 @@ export default async function BlogPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="py-16 relative w-full h-[200px] md:h-[200px] flex items-center justify-center bg-slate-50 border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-slate-800 uppercase">Our Blog</h1>
+      {/* HEADER SECTION */}
+      <section className="relative w-full h-[200px] md:h-[200px] flex items-center justify-center">
+        <Image
+          src="/headers/our-blog.webp"
+          alt="Our Blog"
+          fill
+          priority
+          className="object-cover"
+        />
+        <div className="absolute inset-0"></div>
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-3xl md:text-[72pt] font-bold text-white tracking-tight drop-shadow-lg">
+            Our Blog
+          </h1>
         </div>
       </section>
 
