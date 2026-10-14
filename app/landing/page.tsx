@@ -488,7 +488,7 @@ export default function LandingPage() {
                       <button
                         type="submit"
                         disabled={submitting}
-                        className="w-full sm:w-auto min-w-[260px] flex items-center justify-center gap-3 bg-[#01295f] hover:bg-[#001e47] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-60 cursor-pointer"
+                        className="w-full sm:w-auto min-w-[260px] flex items-center justify-center gap-3 bg-[#01295f] hover:bg-[#001e47] text-white font-bold py-3.5 px-8 rounded-none transition-all shadow-md hover:shadow-lg disabled:opacity-60 cursor-pointer"
                       >
                         {submitting ? (
                           <>
@@ -631,7 +631,7 @@ export default function LandingPage() {
               <div>
                 <button
                   onClick={scrollToForm}
-                  className="inline-flex items-center gap-3 bg-[#00a4dd] hover:bg-[#008fbf] text-white font-bold py-3.5 px-7 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                  className="inline-flex items-center gap-3 bg-[#00a4dd] hover:bg-[#008fbf] text-white font-bold py-3.5 px-7 rounded-none shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
                 >
                   <ArrowRight size={18} />
                   <span>Get Your Free Estimate</span>
