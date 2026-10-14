@@ -7,6 +7,11 @@ import { usePathname } from 'next/navigation'; // Hook para leer la ruta actual
 const Footer = () => {
   const pathname = usePathname();
 
+  // Hide on dedicated landing page
+  if (pathname?.startsWith('/landing')) {
+    return null;
+  }
+
   // Verificamos si la URL actual empieza con la ruta del administrador
   const isAdminPath = pathname?.startsWith('/admin');
 

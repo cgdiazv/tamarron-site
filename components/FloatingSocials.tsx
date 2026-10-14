@@ -8,8 +8,8 @@ import { usePathname } from 'next/navigation'; // 👈 Importamos el hook de rut
 export default function FloatingSocials() {
   const pathname = usePathname(); // 👈 Inicializamos el lector de la URL
 
-  // 💡 Si la ruta actual pertenece al administrador, no renderizamos nada
-  if (pathname?.startsWith('/admin')) {
+  // 💡 Si la ruta actual pertenece al administrador o a la landing dedicada, no renderizamos nada
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/landing')) {
     return null;
   }
 

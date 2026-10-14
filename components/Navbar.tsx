@@ -13,6 +13,11 @@ const Navbar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const pathname = usePathname();
 
+  // Hide on dedicated landing page
+  if (pathname?.startsWith('/landing')) {
+    return null;
+  }
+
   // Verificamos si la ruta actual pertenece al administrador
   const isAdminPath = pathname?.startsWith('/admin');
 
