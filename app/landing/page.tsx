@@ -764,9 +764,9 @@ export default function LandingPage() {
               </div>
 
               <div className="mt-8 pt-6">
-                {/* Wisetack Highlight Banner (Figma Spec) */}
+                {/* Financing Highlight Banner */}
                 <div className="bg-[#00a4dd] text-white font-bold text-base sm:text-lg px-6 py-4 rounded-none shadow-sm text-left">
-                  Available through Wisetack for qualified customers.
+                  Available through financing for qualified customers.
                 </div>
 
                 <p className="text-xs text-slate-400 mt-4 leading-relaxed">
