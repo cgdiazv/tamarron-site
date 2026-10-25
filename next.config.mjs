@@ -9,7 +9,19 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**.cdninstagram.com', // 👈 ESTA ES LA REGLA QUE SOLUCIONA EL ERROR ACTUAL
+        hostname: '**.cdninstagram.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'behold.pictures',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.behold.pictures',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.behold.so',
       },
       {
         protocol: 'https',

@@ -3,6 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
+interface BeholdImageSize {
+  width: number;
+  height: number;
+  mediaUrl: string;
+}
+
 interface BeholdPost {
   id: string;
   mediaUrl: string;
@@ -11,6 +17,12 @@ interface BeholdPost {
   timestamp: string;
   mediaType: string;
   thumbnailUrl?: string;
+  sizes?: {
+    small?: BeholdImageSize;
+    medium?: BeholdImageSize;
+    large?: BeholdImageSize;
+    full?: BeholdImageSize;
+  };
 }
 
 export default function InstagramFeed() {
@@ -88,7 +100,14 @@ export default function InstagramFeed() {
             ========================================= */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {posts.slice(0, 4).map((post) => {
-            const imageSrc = post.thumbnailUrl || post.mediaUrl;
+            const imageSrc =
+              post.sizes?.large?.mediaUrl ||
+              post.sizes?.medium?.mediaUrl ||
+              post.sizes?.small?.mediaUrl ||
+              post.thumbnailUrl ||
+              post.mediaUrl;
+
+            if (!imageSrc) return null;
 
             return (
               <a
@@ -102,7 +121,7 @@ export default function InstagramFeed() {
                   src={imageSrc}
                   alt={post.caption || "Tamarron Services Outdoor Living Project"}
                   fill
-                  sizes="(max-w-768px) 100vw, 25vw"
+                  sizes="(max-width: 768px) 100vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
